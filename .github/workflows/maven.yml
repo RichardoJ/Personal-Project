@@ -46,10 +46,6 @@ jobs:
             java-version: '11'
             distribution: 'temurin'
             cache: maven
-        - name: Change Directory to User Service
-          run: cd ./user-firebase && ls -l && mvn clean package
-        - name: List
-          run: ls -l
         - name: Run User Service Test
-          run: mvn clean package
+          run: cd ./user-firebase && ls -l && mvn clean package
 
