@@ -49,5 +49,5 @@ jobs:
         - name: Change Directory to User Service
           run: cd ./user-firebase
         - name: Run User Service Test
-          run: ./mvnw test
+          run: mvn clean package
 
