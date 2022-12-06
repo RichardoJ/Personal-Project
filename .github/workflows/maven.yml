@@ -22,10 +22,6 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-    - name: change permission for mvnw
-      run: sudo chmod -R 777 ./   
-    - name: Install Maven Dependancies
-      run: ./mvnw dependency:go-offline
     - name: Build Docker Image
       run: docker compose build
     -
