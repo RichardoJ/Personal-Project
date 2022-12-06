@@ -46,6 +46,8 @@ jobs:
             java-version: '11'
             distribution: 'temurin'
             cache: maven
-        - name: Test
-          run: mvn --batch-mode --update-snapshots verify
+        - name: Change Directory to User service
+          run: cd user-firebase
+        - name: Change Directory to User service
+          run: ./mvnw test
 
