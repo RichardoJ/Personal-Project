@@ -47,5 +47,6 @@ jobs:
             distribution: 'temurin'
             cache: maven
         - name: Run User Service Test
-          run: cd ./user-firebase && ls -l && mvn clean package
+          working-directory: ./user-firebase
+          run: mvn clean package
 
