@@ -37,9 +37,11 @@ public class StudentController {
     // private RabbitTemplate template;
 
     private final StudentService student_service;
+    private final UserManagementService userManagementService;
 
-    public StudentController(StudentService studentService) {
+    public StudentController(StudentService studentService, UserManagementService userManagementService) {
         this.student_service = studentService;
+        this.userManagementService = userManagementService;
     }
 
     @GetMapping("")
@@ -52,6 +54,15 @@ public class StudentController {
     @PostMapping(value = "/", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Student> add(@RequestBody Student user) throws FirebaseAuthException {
         Student persistedStudent = student_service.saveStudent(user);
+        return ResponseEntity.created(URI.create(String.format("/student/%s", persistedStudent.getId())))
+                .body(persistedStudent);
+    }
+
+    @PostMapping(value = "/{uid}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Student> addWithClaims(@RequestBody Student user, @PathVariable String uid) throws FirebaseAuthException {
+        user.setUid(uid);
+        Student persistedStudent = student_service.saveStudent(user);
+        userManagementService.setStudentClaims(uid);
         return ResponseEntity.created(URI.create(String.format("/student/%s", persistedStudent.getId())))
                 .body(persistedStudent);
     }
@@ -92,7 +103,9 @@ public class StudentController {
     // }
 
     @DeleteMapping("/{id}")
-    void deleteEmployee(@PathVariable Integer id) {
+    void deleteEmployee(@PathVariable("id") Integer id) throws FirebaseAuthException {
+        Student tmp = student_service.getStudent(id);
+        userManagementService.deleteUser(tmp.getUid());
         student_service.deleteStudent(id);
     }
 }

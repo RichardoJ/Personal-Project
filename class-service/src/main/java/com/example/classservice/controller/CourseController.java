@@ -18,15 +18,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.classservice.exception.NotFoundException;
 import com.example.classservice.model.Course;
+import com.example.classservice.model.CourseTeacher;
 import com.example.classservice.service.CourseService;
+import com.example.classservice.service.CourseTeacherService;
 
 @RestController
 @RequestMapping("/course")
 public class CourseController {
     private final CourseService course_service;
+    private final CourseTeacherService courseTeacherService;
 
-    public CourseController(CourseService courseService){
+    public CourseController(CourseService courseService, CourseTeacherService courseTeacherService){
         this.course_service = courseService;
+        this.courseTeacherService = courseTeacherService;
     }
 
     @GetMapping("")
@@ -45,11 +49,15 @@ public class CourseController {
                 linkTo(methodOn(CourseController.class).all()).withRel("course"));
     }
 
-    @PostMapping(value = "/", consumes = { MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping(value = "/add/{teacher_id}", consumes = { MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
                     MediaType.APPLICATION_XML_VALUE })
-    public ResponseEntity<Course> add(@RequestBody Course course_tmp) {
+    public ResponseEntity<Course> add(@RequestBody Course course_tmp, @PathVariable Integer teacherId) {
         Course persistedCourse = course_service.saveCourse(course_tmp);
+        CourseTeacher teacherCourse = new CourseTeacher();
+        teacherCourse.setCourse_id_enrollment(persistedCourse.getId());
+        teacherCourse.setTeacher_id_enrollment(teacherId);
+        courseTeacherService.enrollCourseTeacher(teacherCourse);
         return ResponseEntity.created(URI.create(String.format("/course/%s", persistedCourse.getCourse_name())))
                 .body(persistedCourse);
     }
@@ -67,5 +75,6 @@ public class CourseController {
     @DeleteMapping("/{id}")
     void deleteCourse(@PathVariable Integer id) {
         course_service.deleteCourse(id);
+        courseTeacherService.deleteCourseTeacher(id);
     }
 }

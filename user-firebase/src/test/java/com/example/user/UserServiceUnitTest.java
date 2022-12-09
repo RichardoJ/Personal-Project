@@ -30,8 +30,8 @@ public class UserServiceUnitTest {
     void shouldGetAll() {
         // Mock Student
         List<Student> listStudent = new ArrayList<Student>();
-        Student studentOne = new Student(1, "michael", "bla@gmail.com", "1234", "pastoorstraat", 1);
-        Student studentTwo = new Student(2, "michael", "bla@gmail.com", "1234", "pastoorstraat", 1);
+        Student studentOne = new Student(1, "michael", "bla@gmail.com", "1234", "pastoorstraat", 1, null);
+        Student studentTwo = new Student(2, "michael", "bla@gmail.com", "1234", "pastoorstraat", 1, null);
         // Arrange
         listStudent.add(studentOne);
         listStudent.add(studentTwo);
@@ -48,7 +48,7 @@ public class UserServiceUnitTest {
      @Test
      void shouldGetOne(){
          // Mock Student
-         Student studentOne = new Student(1, "michael", "bla@gmail.com", "1234", "pastoorstraat", 1);
+         Student studentOne = new Student(1, "michael", "bla@gmail.com", "1234", "pastoorstraat", 1, null);
 
          //Mock Service
          when(studentRepository.findById(1)).thenReturn(Optional.of(studentOne));
@@ -68,7 +68,7 @@ public class UserServiceUnitTest {
 
     @Test
     void shouldSave(){
-        Student studentOne = new Student(1, "michael", "bla@gmail.com", "1234", "pastoorstraat", 1);
+        Student studentOne = new Student(1, "michael", "bla@gmail.com", "1234", "pastoorstraat", 1, null);
 
         when(studentRepository.save(studentOne)).thenReturn(studentOne);
 

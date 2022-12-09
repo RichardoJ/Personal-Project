@@ -63,4 +63,8 @@ public class UserManagementService {
             return false;
         }
     }
+
+    public void deleteUser(String uid) throws FirebaseAuthException {
+        firebaseAuth.deleteUser(uid);
+    }
 }

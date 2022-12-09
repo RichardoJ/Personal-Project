@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.example.classservice.model.Course;
-import com.example.classservice.model.Module;
 import com.example.classservice.repository.CourseRepository;
 
 @Service

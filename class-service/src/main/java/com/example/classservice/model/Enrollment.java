@@ -26,6 +26,6 @@ public class Enrollment implements Serializable{
     private int id;
 
     private int student_id_enrollment;
-
+    
     private int course_id_enrollment;
 }

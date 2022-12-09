@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.user.service.Permission;
-import com.example.user.service.PermissionTwo;
 import com.example.user.service.UserManagementService;
 import com.google.firebase.auth.FirebaseAuthException;
 
@@ -38,7 +37,6 @@ public class AdminController {
     public Map<String, String> setStudentClaims(
             @PathVariable String uid
     ) throws FirebaseAuthException {
-        System.out.println("UID : " + uid);
         userManagementService.setStudentClaims(uid);
         var token = userManagementService.getToken(uid);
         Map<String, String> map = new HashMap<String, String>(1){{put("token", token);}};
@@ -49,7 +47,6 @@ public class AdminController {
     public Map<String, String> setTeacherClaims(
             @PathVariable String uid
     ) throws FirebaseAuthException {
-        System.out.println("UID : " + uid);
         userManagementService.setStudentClaims(uid);
         var token = userManagementService.getToken(uid);
         Map<String, String> map = new HashMap<String, String>(1){{put("token", token);}};

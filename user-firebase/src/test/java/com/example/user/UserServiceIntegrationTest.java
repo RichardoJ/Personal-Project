@@ -32,9 +32,9 @@ public class UserServiceIntegrationTest extends AbstractContainerBaseTest {
         System.out.println(MY_SQL_CONTAINER.getJdbcUrl());
 
         Student mockStudent = new Student(1, "Michael3", "Pinarto@gmail.com", "mantabjiwa",
-                "jl. cendrawasih 165b, Makassar", 6);
+                "jl. cendrawasih 165b, Makassar", 6, null);
         Student mockStudent2 = new Student(2, "Michael4", "Pinarto@gmail.com", "mantabjiwa2",
-                "jl. cendrawasih 165b, Makassar", 8);
+                "jl. cendrawasih 165b, Makassar", 8, null);
 
         System.out.println(mockStudent);
 

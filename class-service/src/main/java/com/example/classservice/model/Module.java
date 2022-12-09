@@ -29,8 +29,7 @@ public class Module implements Serializable{
     private int course_id_module;
     
     private String modules_name;
-    private String modules_score;
-    private String modules_progress;
     private String details;
+    private String module_link_file;
     
 }

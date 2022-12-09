@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
 
@@ -25,4 +24,5 @@ public class Student implements Serializable {
     private String student_password;
     private String student_address;
     private int student_semester;
+    private String uid;
 }
