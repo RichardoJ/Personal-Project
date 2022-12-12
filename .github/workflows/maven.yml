@@ -47,12 +47,18 @@ jobs:
             cache: maven
         - name: Run Analyze User Service
           working-directory: ./user-firebase
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=RichardoJ_Personal-Project
         - name: Run Analyze Assignment Service
           working-directory: ./assignment-service
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=RichardoJ_Personal-Project
         - name: Run Analyze Class Service
           working-directory: ./class-service
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=RichardoJ_Personal-Project
   
   test:
