@@ -1,9 +1,12 @@
 package com.example.classservice.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -20,7 +23,10 @@ public class CourseTeacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "teacher_id")
     private int teacher_id_enrollment;
 
-    private int course_id_enrollment;
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course_teacher;
 }

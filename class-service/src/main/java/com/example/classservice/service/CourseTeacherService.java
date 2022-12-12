@@ -41,9 +41,11 @@ public class CourseTeacherService {
     }
 
     public void deleteCourseTeacher(Integer id){
+        System.out.println("ID YANG MASUK :" + id);
         if(courseTeacherRepository.findByCourseId(id).isPresent()){
             CourseTeacher tmp = courseTeacherRepository.findByCourseId(id).get();
             Integer deleteId = tmp.getId();
+            System.out.println("ID YANG MAU DI DELETE :" + deleteId);
             courseTeacherRepository.deleteById(deleteId);
         }
     }

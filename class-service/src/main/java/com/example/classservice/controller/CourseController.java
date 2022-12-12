@@ -49,16 +49,16 @@ public class CourseController {
                 linkTo(methodOn(CourseController.class).all()).withRel("course"));
     }
 
-    @PostMapping(value = "/add/{teacher_id}", consumes = { MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping(value = "/add/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
                     MediaType.APPLICATION_XML_VALUE })
-    public ResponseEntity<Course> add(@RequestBody Course course_tmp, @PathVariable Integer teacherId) {
+    public ResponseEntity<Course> add(@RequestBody Course course_tmp, @PathVariable Integer id) {
         Course persistedCourse = course_service.saveCourse(course_tmp);
         CourseTeacher teacherCourse = new CourseTeacher();
-        teacherCourse.setCourse_id_enrollment(persistedCourse.getId());
-        teacherCourse.setTeacher_id_enrollment(teacherId);
+        teacherCourse.setCourse_teacher(course_tmp);
+        teacherCourse.setTeacher_id_enrollment(id);
         courseTeacherService.enrollCourseTeacher(teacherCourse);
-        return ResponseEntity.created(URI.create(String.format("/course/%s", persistedCourse.getCourse_name())))
+        return ResponseEntity.created(URI.create(String.format("/course/%s", persistedCourse.getId())))
                 .body(persistedCourse);
     }
 
@@ -74,7 +74,7 @@ public class CourseController {
 
     @DeleteMapping("/{id}")
     void deleteCourse(@PathVariable Integer id) {
-        course_service.deleteCourse(id);
         courseTeacherService.deleteCourseTeacher(id);
+        course_service.deleteCourse(id);
     }
 }

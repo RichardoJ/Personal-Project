@@ -39,7 +39,8 @@ public class AdminController {
     ) throws FirebaseAuthException {
         userManagementService.setStudentClaims(uid);
         var token = userManagementService.getToken(uid);
-        Map<String, String> map = new HashMap<String, String>(1){{put("token", token);}};
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("token", token);
         return map;
     }
 
@@ -49,7 +50,8 @@ public class AdminController {
     ) throws FirebaseAuthException {
         userManagementService.setStudentClaims(uid);
         var token = userManagementService.getToken(uid);
-        Map<String, String> map = new HashMap<String, String>(1){{put("token", token);}};
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("token", token);
         return map;
     }
 

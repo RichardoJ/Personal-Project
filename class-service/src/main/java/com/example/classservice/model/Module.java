@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -26,10 +28,12 @@ public class Module implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int course_id_module;
+    @ManyToOne
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
     
     private String modules_name;
     private String details;
-    private String module_link_file;
+    private String module_link_name;
     
 }

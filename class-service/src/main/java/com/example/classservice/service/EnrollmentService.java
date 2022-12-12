@@ -50,7 +50,7 @@ public class EnrollmentService {
         List<Enrollment> enrollments = getEnrollmentByStudentId(id);
         List<Course> student_course = new ArrayList<>();
         for (Enrollment enroll : enrollments){
-            Course tmp = courserepo.findById(enroll.getCourse_id_enrollment()).get();
+            Course tmp = courserepo.findById(enroll.getCourse_enrollment().getId()).get();
             student_course.add(tmp);
         }
         return student_course;

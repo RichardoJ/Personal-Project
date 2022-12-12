@@ -11,6 +11,6 @@ import com.example.classservice.model.Enrollment;
 
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Integer>{
     
-    @Query(value = "SELECT * FROM enrollment WHERE student_id_enrollment = :student_id", nativeQuery = true)
+    @Query(value = "SELECT * FROM enrollment WHERE student_id = :student_id", nativeQuery = true)
     List<Enrollment> findByStudentId(@Param("student_id") Integer student_id);
 }

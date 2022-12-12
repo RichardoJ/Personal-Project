@@ -70,7 +70,7 @@ public class ModuleController {
             @PathVariable("id") Integer course_id, @RequestBody Module module) throws IOException {
 
         String url = azureBlobAdapter.upload(file);
-        module.setModule_link_file(url);
+        module.setModule_link_name(url);
 
         Module persistedModule = module_service.saveModule(module);
 
@@ -86,7 +86,7 @@ public class ModuleController {
         if (module == null) {
             throw new NotFoundException(id);
         }
-        String fileName = module.getModule_link_file();
+        String fileName = module.getModule_link_name();
 
         ByteArrayResource resource = new ByteArrayResource(azureBlobAdapter
                 .getFile(fileName));

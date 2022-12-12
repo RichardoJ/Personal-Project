@@ -11,6 +11,6 @@ import com.example.classservice.model.Module;
 
 public interface ModuleRepository extends JpaRepository<Module, Integer>{
     
-    @Query(value = "Select * From modules m WHERE m.course_id_module = :course_id", nativeQuery = true)
+    @Query(value = "Select * From modules m WHERE m.course_id = :course_id", nativeQuery = true)
     List<Module> findModulesByCourseId(@Param("course_id") Integer course_id);
 }

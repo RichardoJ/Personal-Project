@@ -11,12 +11,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfiguration {
 
-    // @Value("${fanout.exchange}")
-    // private String fanoutExchange;
-
-    // @Value("${queue.name}")
-    // private String queueName;
-
     public final static String fanoutExchange = "x.fanout";
     public final static String queueName = "q.myQueue";
 
@@ -47,36 +41,4 @@ public class RabbitConfiguration {
         rabbitTemplate.setMessageConverter(converter());
         return rabbitTemplate;
     }
-
-
-    // public static final String QUEUE = "myQueue";
-    // public static final String EXCHANGE = "exchange_topic";
-    // public static final String ROUTINGKEY = "myRoutingKey";
-
-    // @Bean
-    // public Queue queue(){
-    //     return new Queue(QUEUE);
-    // }
-
-    // @Bean
-    // public TopicExchange exchange(){
-    //     return new TopicExchange(EXCHANGE);
-    // }
-
-    // @Bean
-    // public Binding binding(Queue queue, TopicExchange exchange){
-    //     return BindingBuilder.bind(queue).to(exchange).with(ROUTINGKEY);
-    // }
-
-    // @Bean
-    // public MessageConverter converter(){
-    //     return new Jackson2JsonMessageConverter();
-    // }
-
-    // @Bean
-    // public AmqpTemplate template(ConnectionFactory connectionFactory){
-    //     final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-    //     rabbitTemplate.setMessageConverter(converter());
-    //     return rabbitTemplate;
-    // }
 }
