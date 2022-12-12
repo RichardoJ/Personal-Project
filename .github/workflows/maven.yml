@@ -45,21 +45,21 @@ jobs:
             java-version: '11'
             distribution: 'temurin'
             cache: maven
-        - name: Run Analyze User Service
-          working-directory: ./user-firebase
+        - name: Run Analyze Class Service
+          working-directory: ./class-service
           env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=RichardoJ_Personal-Project
         - name: Run Analyze Assignment Service
           working-directory: ./assignment-service
           env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=RichardoJ_Personal-Project
-        - name: Run Analyze Class Service
-          working-directory: ./class-service
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN2 }}
+          run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=richardoj_assignment_service
+        - name: Run Analyze User Service
+          working-directory: ./user-firebase
           env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=RichardoJ_Personal-Project
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN3 }}
+          run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=richardoj_user_service
   
   test:
       name: Test
