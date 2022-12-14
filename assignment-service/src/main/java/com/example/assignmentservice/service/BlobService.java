@@ -22,12 +22,13 @@ public class BlobService {
     @Autowired
     BlobContainerClient blobContainerClient;
 
-    public String upload(MultipartFile multipartFile)
+    public String upload(MultipartFile multipartFile, Integer studInteger)
             throws IOException {
 
         // Todo UUID
+        String fileName = studInteger + "_" + multipartFile.getOriginalFilename();
         BlobClient blob = blobContainerClient
-                .getBlobClient(multipartFile.getOriginalFilename());
+                .getBlobClient(fileName);
         blob.upload(multipartFile.getInputStream(),
                 multipartFile.getSize(), true);
         

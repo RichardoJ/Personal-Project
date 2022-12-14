@@ -58,7 +58,7 @@ public class BlobController {
     public ResponseEntity<String> upload(@RequestParam(value = "file") MultipartFile file, @PathVariable("student_id") Integer student_id, @PathVariable("assignment_id") Integer assignment_id)
             throws IOException {
 
-        String url = azureBlobAdapter.upload(file);
+        String url = azureBlobAdapter.upload(file,student_id);
         Float score = 0.0f;
         
         Answer persistedAnswer = new Answer(student_id, assignment_id, 1, 0.0f, url);
