@@ -77,4 +77,10 @@ jobs:
         - name: Run User Service Test
           working-directory: ./user-firebase
           run: mvn clean package
+        - name: Run Assignment Service Test
+          working-directory: ./assignment-service
+          run: mvn clean package
+        - name: Run Class Service Test
+          working-directory: ./class-service
+          run: mvn clean package
 
