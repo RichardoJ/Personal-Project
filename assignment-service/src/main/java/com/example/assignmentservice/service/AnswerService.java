@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.example.assignmentservice.model.Answer;
+import com.example.assignmentservice.model.CourseAnswer;
 import com.example.assignmentservice.repository.AnswerRepository;
 
 @Service
@@ -42,6 +43,42 @@ public class AnswerService {
             return answer.get();
         }else{
             return null;
+        }
+    }
+
+    public List<CourseAnswer> getCourseAnswer(Integer student_id, Integer course_id){
+        Optional<List<CourseAnswer>> answer = answerrepo.findCourseAnswer(student_id, course_id);
+        
+        if(answer.isPresent()){
+            System.out.print(answer.get());
+            return answer.get();
+        }else{
+            System.out.println("KOSONG");
+            return null;
+        }
+    }
+
+    public Float getAverageCourseAnswer(List<CourseAnswer> answers){
+        Float average = 0.0f;
+        Float total = 0.0f;
+        for (CourseAnswer answer : answers) {
+            total += answer.getScore();
+            System.out.println("Total Average : " + total);
+        }
+        average = (float) (total / answers.size());
+        System.out.println("Hasil Akhir : " + average);
+        return average;
+    }
+
+    public String checkGoodOrBad(Float value){
+        if (value >= 80.0f && value <= 100.0f){
+            return "Proficient";
+        }else if(value < 80.0f && value >= 65.0f){
+            return "Beginning";
+        }else if (value < 65.0f && value >= 0.0f){
+            return "Orienting";
+        }else{
+            return "Not Started yet";
         }
     }
 

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.classservice.exception.NotFoundException;
+import com.example.classservice.model.Course;
 import com.example.classservice.model.Module;
 import com.example.classservice.service.BlobService;
 import com.example.classservice.service.ModuleService;
@@ -63,18 +64,18 @@ public class ModuleController {
         return module_service.getCourseModule(id);
     }
 
-    @PostMapping(value = "/course/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
-                    MediaType.APPLICATION_XML_VALUE })
-    public ResponseEntity<Module> add(@RequestParam(value = "file") MultipartFile file,
-            @PathVariable("id") Integer course_id, @RequestBody Module module) throws IOException {
-
-        String url = azureBlobAdapter.upload(file);
-        module.setModule_link_name(url);
+    @PostMapping(value = "/course/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Module> add(@RequestParam(value = "file") MultipartFile file,@RequestParam(value="name") String module_name, @RequestParam(value = "details") String details,
+            @PathVariable("id") Integer course_id) throws IOException {
+        
+        String url = azureBlobAdapter.upload(file,course_id);
+        Course course = new Course();
+        course.setId(course_id);
+        Module module = new Module(course, module_name, details, url);
 
         Module persistedModule = module_service.saveModule(module);
 
-        return ResponseEntity.created(URI.create(String.format("/modules/%s", persistedModule.getModules_name())))
+        return ResponseEntity.created(URI.create(String.format("/modules/%s", persistedModule.getId())))
                 .body(persistedModule);
     }
 
@@ -93,8 +94,8 @@ public class ModuleController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename="
-                        + fileName);
+                "attachment; filename=\""
+                        + fileName + "\"");
 
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .headers(headers).body(resource);

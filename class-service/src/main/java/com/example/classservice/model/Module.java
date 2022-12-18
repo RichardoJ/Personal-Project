@@ -36,4 +36,10 @@ public class Module implements Serializable{
     private String details;
     private String module_link_name;
     
+    public Module(Course empty, String modules_name, String details, String module_link_name){
+        this.course = empty;
+        this.modules_name = modules_name;
+        this.details = details;
+        this.module_link_name = module_link_name;
+    }
 }

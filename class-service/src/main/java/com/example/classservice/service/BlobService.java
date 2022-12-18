@@ -22,12 +22,13 @@ public class BlobService {
     @Autowired
     BlobContainerClient blobContainerClient;
 
-    public String upload(MultipartFile multipartFile)
+    public String upload(MultipartFile multipartFile, Integer course_id)
             throws IOException {
-
+        
+        String url = course_id + "_Module_" + multipartFile.getOriginalFilename();
         // Todo UUID
         BlobClient blob = blobContainerClient
-                .getBlobClient(multipartFile.getOriginalFilename());
+                .getBlobClient(url);
         blob.upload(multipartFile.getInputStream(),
                 multipartFile.getSize(), true);
         return blob.getBlobName();

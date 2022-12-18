@@ -4,7 +4,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.hateoas.EntityModel;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.assignmentservice.exception.NotFoundException;
 import com.example.assignmentservice.model.Answer;
+import com.example.assignmentservice.model.CourseAnswer;
+import com.example.assignmentservice.model.GradeStatus;
 import com.example.assignmentservice.service.AnswerService;
 
 @RestController
@@ -73,13 +77,42 @@ public class AnswerController {
         return status;
     }
 
-    @PostMapping(value = "/", consumes = { MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
-                    MediaType.APPLICATION_XML_VALUE })
+    @PostMapping(value = "/", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     public ResponseEntity<Answer> add(@RequestBody Answer answer_tmp) {
         Answer persistedAnswer = answer_service.saveAnswer(answer_tmp);
         return ResponseEntity.created(URI.create(String.format("/answer/%s", persistedAnswer.getId())))
                 .body(persistedAnswer);
+    }
+
+    // @GetMapping(value = "/average/{student_id}/course/{course_id}")
+    // public Float getAveragePerCourse(@PathVariable("student_id") Integer student_id, @PathVariable("course_id") Integer course_id){
+    //     List<CourseAnswer> tmpAnswer = answer_service.getCourseAnswer(student_id, course_id);
+    //     Float average = 0.0f;
+    //     if (tmpAnswer != null) {
+    //         average = answer_service.getAverageCourseAnswer(tmpAnswer);
+    //         return average;
+    //     } else {
+    //         return 0.0f;
+    //     }
+    // }
+
+    @PostMapping(value = "/average/{student_id}")
+    public List<GradeStatus> getAveragePerCourse(@PathVariable("student_id") Integer student_id, @RequestBody List<Integer> id){
+        List<GradeStatus> allGrade = new ArrayList<>();
+        for (Integer tmp : id){
+            List<CourseAnswer> tmpAnswer = answer_service.getCourseAnswer(student_id, tmp);
+            Float average = 0.0f;
+            if (tmpAnswer != null) {
+                average = answer_service.getAverageCourseAnswer(tmpAnswer);
+                String gradeString = answer_service.checkGoodOrBad(average);
+                GradeStatus saveGrade = new GradeStatus(average,gradeString);
+                allGrade.add(saveGrade);
+            } else {
+                GradeStatus saveGrade = new GradeStatus(0.0f,"Not Yet Started");
+                allGrade.add(saveGrade);
+            }
+        }
+        return allGrade;
     }
 
     @DeleteMapping("/{id}")
