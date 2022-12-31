@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.classservice.exception.NotFoundException;
 import com.example.classservice.model.Course;
@@ -25,13 +26,17 @@ import com.example.classservice.service.CourseTeacherService;
 @RestController
 @RequestMapping("/course")
 public class CourseController {
+
     private final CourseService course_service;
     private final CourseTeacherService courseTeacherService;
+    private final WebClient webClient;
 
-    public CourseController(CourseService courseService, CourseTeacherService courseTeacherService){
+    public CourseController(CourseService courseService, CourseTeacherService courseTeacherService, WebClient webClient){
         this.course_service = courseService;
         this.courseTeacherService = courseTeacherService;
+        this.webClient =  webClient;
     }
+
 
     @GetMapping("")
     public List<Course> all() {
@@ -62,19 +67,10 @@ public class CourseController {
                 .body(persistedCourse);
     }
 
-    // @GetMapping("/{id}/modules")
-    // public List<Module> all_modules(@PathVariable Integer id) {
-    //     List<Module> modules = course_service.getCourseModules(id);
-    //     if(modules == null){
-    //         throw new NotFoundException(id);
-    //     }else{
-    //         return modules;
-    //     }
-    // }
-
     @DeleteMapping("/{id}")
     void deleteCourse(@PathVariable Integer id) {
-        courseTeacherService.deleteCourseTeacher(id);
         course_service.deleteCourse(id);
+        String link = "http://localhost:8083/assignment/course/" + id;
+        webClient.delete().uri(link);
     }
 }

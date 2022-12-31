@@ -68,4 +68,12 @@ public class EnrollmentService {
     public void deleteEnrollment(Integer id){
         enrollmentrepo.deleteById(id);
     }
+
+    public void deleteEnrollmentByCourse_id(Integer course_id){
+        enrollmentrepo.deleteByCourseId(course_id);
+    }
+
+    public void deleteEnrollmentByStudentAndCourse_id(Integer student_id, Integer course_id){
+        enrollmentrepo.deleteByStudentAndCourseId(student_id, course_id);
+    }
 }

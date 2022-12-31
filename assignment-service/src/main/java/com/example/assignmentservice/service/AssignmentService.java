@@ -49,4 +49,8 @@ public class AssignmentService {
     public void deleteAssignment(Integer id){
         assignmentrepo.deleteById(id);
     }
+
+    public void deleteAssignmentByCourse(Integer id){
+        assignmentrepo.deleteByCourseId(id);
+    }
 }

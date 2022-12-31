@@ -72,31 +72,11 @@ public class StudentController {
         return EntityModel.of(student, linkTo(methodOn(StudentController.class).one(id)).withSelfRel(), linkTo(methodOn(StudentController.class).all()).withRel("student"));
     }
 
-    // @GetMapping("/rabbitMQ")
-    // public ResponseEntity<?> getStudents() throws JsonProcessingException {
-    //     Student student = queueConsumer.processMessage();
-    //     System.out.println("Message received from " + queueConsumer.getQueueName() + " : " + student);
-    //     return new ResponseEntity<Student>(student, HttpStatus.OK);
-    // }
-
     @PostMapping(value = "/rabbitMQ/", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> storeStudent(@RequestBody Student student) throws JsonProcessingException {
         queueProducer.produce(student);
         return new ResponseEntity<Student>(student, HttpStatus.CREATED);
     }
-
-    // @PostMapping(value = "/", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    // public ResponseEntity<?> storeStudent(@RequestBody Student student) throws JsonProcessingException {
-    //     template.convertAndSend(RabbitConfiguration.EXCHANGE, RabbitConfiguration.ROUTINGKEY, student);
-    //     return new ResponseEntity<Student>(student, HttpStatus.CREATED);
-    // }
-
-    // @GetMapping("/{id}")
-    // ResponseEntity<?> getGroup(@PathVariable Integer id) {
-    //     Optional<Student> student = student_service.getStudent(id);
-    //     return student.map(response -> ResponseEntity.ok().body(response))
-    //             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    // }
 
     @DeleteMapping("/{id}")
     void deleteEmployee(@PathVariable("id") Integer id) throws FirebaseAuthException {

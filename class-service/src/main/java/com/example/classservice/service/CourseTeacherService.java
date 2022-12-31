@@ -1,5 +1,6 @@
 package com.example.classservice.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.classservice.model.Course;
 import com.example.classservice.model.CourseTeacher;
 import com.example.classservice.repository.CourseTeacherRepository;
 
@@ -27,8 +29,13 @@ public class CourseTeacherService {
         return courseTeacherRepository.save(course_tmp);
     }
 
-    public List<CourseTeacher> listAllByTeacherId(Integer teacher_id){
-        return courseTeacherRepository.findByTeacherId(teacher_id);
+    public List<Course> listAllByTeacherId(Integer teacher_id){
+        List<Course> courses = new ArrayList<Course>();
+        List<CourseTeacher> lCourseTeachers = courseTeacherRepository.findByTeacherId(teacher_id);
+        for (CourseTeacher courseTeacher : lCourseTeachers) {
+            courses.add(courseTeacher.getCourse_teacher());
+        }
+        return courses;
     }
 
     public CourseTeacher getCourseTeacher(Integer id) {
@@ -41,11 +48,9 @@ public class CourseTeacherService {
     }
 
     public void deleteCourseTeacher(Integer id){
-        System.out.println("ID YANG MASUK :" + id);
         if(courseTeacherRepository.findByCourseId(id).isPresent()){
             CourseTeacher tmp = courseTeacherRepository.findByCourseId(id).get();
             Integer deleteId = tmp.getId();
-            System.out.println("ID YANG MAU DI DELETE :" + deleteId);
             courseTeacherRepository.deleteById(deleteId);
         }
     }

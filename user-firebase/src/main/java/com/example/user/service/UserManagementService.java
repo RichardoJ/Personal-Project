@@ -53,7 +53,6 @@ public class UserManagementService {
     }
 
     public Boolean validateToken(String token) throws FirebaseAuthException {
-        System.out.println(token);
         FirebaseToken decodedToken = firebaseAuth.verifyIdToken(token);
         String uid = decodedToken.getUid();
         if (uid != null) {

@@ -50,10 +50,8 @@ public class AnswerService {
         Optional<List<CourseAnswer>> answer = answerrepo.findCourseAnswer(student_id, course_id);
         
         if(answer.isPresent()){
-            System.out.print(answer.get());
             return answer.get();
         }else{
-            System.out.println("KOSONG");
             return null;
         }
     }
@@ -63,10 +61,8 @@ public class AnswerService {
         Float total = 0.0f;
         for (CourseAnswer answer : answers) {
             total += answer.getScore();
-            System.out.println("Total Average : " + total);
         }
         average = (float) (total / answers.size());
-        System.out.println("Hasil Akhir : " + average);
         return average;
     }
 

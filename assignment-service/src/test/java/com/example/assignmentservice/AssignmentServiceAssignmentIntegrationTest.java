@@ -30,10 +30,6 @@ public class AssignmentServiceAssignmentIntegrationTest extends AbstractContaine
 
     @Test
     public void retrieveDetailsForAssignment() throws Exception {
-        System.out.println(MY_SQL_CONTAINER.getDatabaseName());
-        System.out.println(MY_SQL_CONTAINER.getPassword());
-        System.out.println(MY_SQL_CONTAINER.getUsername());
-        System.out.println(MY_SQL_CONTAINER.getJdbcUrl());
         LocalDateTime now = LocalDateTime.now();
         Assignment test1 = new Assignment(1,1, "Data Mining", "Assignment for Data Mining",now.toDate());
 

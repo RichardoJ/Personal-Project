@@ -55,7 +55,6 @@ public class AnswerController {
     @GetMapping("/student/{student_id}/assignment/{assignment_id}")
     public Boolean answerByStudentAndAssignmentId(@PathVariable("student_id") Integer student_id, @PathVariable("assignment_id") Integer assignment_id){
       Answer answer = answer_service.getAnswerByStudentId(student_id, assignment_id);
-      System.out.println(answer);
       if(answer != null && answer.getAssignment_status() == 1){
         return true;
       }else{

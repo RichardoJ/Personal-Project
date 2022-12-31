@@ -16,7 +16,6 @@ public class RabbitConfiguration {
 
     @Bean
     Queue queue() {
-        System.out.println(queueName);
         return new Queue(queueName, true);
     }
 

@@ -9,14 +9,20 @@ import org.springframework.stereotype.Service;
 
 import com.example.classservice.model.Course;
 import com.example.classservice.repository.CourseRepository;
+import com.example.classservice.repository.CourseTeacherRepository;
+import com.example.classservice.repository.EnrollmentRepository;
 
 @Service
 @Transactional
 public class CourseService {
     private final CourseRepository courserepo;
+    private final CourseTeacherRepository courseTeacherRepo;
+    private final EnrollmentRepository enrollmentRepo;
 
-    public CourseService(CourseRepository courseRepository){
+    public CourseService(CourseRepository courseRepository, CourseTeacherRepository courseTeacherRepository, EnrollmentRepository enrollmentRepository){
         this.courserepo = courseRepository;
+        this.courseTeacherRepo = courseTeacherRepository;
+        this.enrollmentRepo = enrollmentRepository;
     }
 
     public List<Course> listAllCourse(){
@@ -49,6 +55,8 @@ public class CourseService {
     // }
 
     public void deleteCourse(Integer id){
+        courseTeacherRepo.deleteById(id);
+        enrollmentRepo.deleteByCourseId(id);
         courserepo.deleteById(id);
     }
 }

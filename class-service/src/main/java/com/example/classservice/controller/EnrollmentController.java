@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.classservice.dto.EnrollmentDto;
 import com.example.classservice.exception.NotFoundException;
 import com.example.classservice.model.Course;
 import com.example.classservice.model.Enrollment;
@@ -39,11 +40,12 @@ public class EnrollmentController {
         return enrollment_service.listAllEnrollment();
     }
 
-    @PostMapping(value = "/", consumes = { MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
-                    MediaType.APPLICATION_XML_VALUE })
-    public ResponseEntity<Enrollment> add(@RequestBody Enrollment user) {
-        Enrollment persistedEnrollment = enrollment_service.saveEnrollment(user);
+    @PostMapping(value = "/", consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
+    public ResponseEntity<Enrollment> add(@RequestBody EnrollmentDto input) {
+        Course tmp = new Course();
+        tmp.setId(input.getCourse_id());
+        Enrollment enrollmentBase = new Enrollment(input.getStudent_id(), tmp);
+        Enrollment persistedEnrollment = enrollment_service.saveEnrollment(enrollmentBase);
         return ResponseEntity.created(URI.create(String.format("/enrollment/%s", persistedEnrollment.getId())))
                 .body(persistedEnrollment);
     }
@@ -72,5 +74,15 @@ public class EnrollmentController {
     @DeleteMapping("/{id}")
     void deleteEnrollment(@PathVariable Integer id) {
         enrollment_service.deleteEnrollment(id);
+    }
+
+    @DeleteMapping("/course/{id}")
+    void deleteEnrollmentByCourse_id(@PathVariable Integer id) {
+        enrollment_service.deleteEnrollmentByCourse_id(id);
+    }
+
+    @DeleteMapping("/student/{student_id}/course/{course_id}")
+    void deleteEnrollmentByStudentAndCourse_id(@PathVariable("student_id") Integer student_id, @PathVariable("course_id") Integer course_id) {
+        enrollment_service.deleteEnrollmentByStudentAndCourse_id(student_id, course_id);;
     }
 }

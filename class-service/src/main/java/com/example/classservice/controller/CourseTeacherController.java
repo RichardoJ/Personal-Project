@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.classservice.model.CourseTeacher;
+import com.example.classservice.model.Course;
 import com.example.classservice.service.CourseTeacherService;
 
 @RestController
@@ -20,7 +20,8 @@ public class CourseTeacherController {
     }
 
     @GetMapping("/{id}")
-    public List<CourseTeacher> all(@PathVariable Integer id){
-        return courseTeacherService.listAllByTeacherId(id);
+    public List<Course> all(@PathVariable Integer id){
+        List<Course> tmp = courseTeacherService.listAllByTeacherId(id);
+        return tmp;
     }
 }

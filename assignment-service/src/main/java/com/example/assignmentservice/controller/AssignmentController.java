@@ -56,12 +56,17 @@ public class AssignmentController {
     public ResponseEntity<Assignment> add(@RequestBody Assignment assignment_tmp) {
         Assignment persistedAssignment = assignment_service.saveAssignment(assignment_tmp);
         return ResponseEntity
-                .created(URI.create(String.format("/assignment/%s", persistedAssignment.getAssignment_name())))
+                .created(URI.create(String.format("/assignment/%s", persistedAssignment.getId())))
                 .body(persistedAssignment);
     }
 
     @DeleteMapping("/{id}")
-    void deleteEmployee(@PathVariable Integer id) {
+    void deleteAssignment(@PathVariable Integer id) {
         assignment_service.deleteAssignment(id);
+    }
+
+    @DeleteMapping("/course/{id}")
+    void deleteAssignmentByCourse(@PathVariable Integer id) {
+        assignment_service.deleteAssignmentByCourse(id);
     }
 }

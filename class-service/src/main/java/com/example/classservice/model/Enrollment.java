@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +20,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "enrollment")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
 public class Enrollment implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,4 +31,9 @@ public class Enrollment implements Serializable{
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
     private Course course_enrollment;
+
+    public Enrollment(Integer student_id, Course empty){
+        this.student_id_enrollment = student_id;
+        this.course_enrollment = empty;
+    }
 }
