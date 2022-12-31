@@ -59,19 +59,4 @@ public class ClassServiceCourseIntegrationTest extends AbstractContainerBaseTest
         assertTrue(courseRepository.findAll().size() == 1);
     }
 
-    @Test
-    public void deleteCourse() throws Exception {
-        LocalDateTime now = LocalDateTime.now();
-        Course test1 = new Course(1, "Data Mining", now.toDate(), now.toDate(), "http://bakpao.com", "Data Mining Course", null, null, null);
-        Course test2 = new Course(2, "Data Preprocessing", now.toDate(), now.toDate(), "http://bakpao.com", "Data Preprocessing Course", null, null, null);
-        courseRepository.save(test1);
-        courseRepository.save(test2);
-
-        RequestBuilder requestBuilderGET = MockMvcRequestBuilders.delete("/course/2").accept(MediaType.APPLICATION_JSON);
-        ResultActions response = mockMvc.perform(requestBuilderGET);
-        response.andExpect(MockMvcResultMatchers.status().isOk());
-        
-        assertTrue(courseRepository.findAll().size() == 1);
-    }
-
 }
