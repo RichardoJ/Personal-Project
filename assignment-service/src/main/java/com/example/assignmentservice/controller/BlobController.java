@@ -23,30 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.assignmentservice.model.Answer;
 import com.example.assignmentservice.service.AnswerService;
 import com.example.assignmentservice.service.BlobService;
-import com.netflix.discovery.converters.Auto;
 
 @RestController
 @RequestMapping("/files")
 public class BlobController {
 
-    // @Value("azure-blob://studentassignments/testing")
-    // private Resource blobFile;
-
-    // @GetMapping("/readBlobFile")
-    // public String readBlobFile() throws IOException {
-    // return StreamUtils.copyToString(
-    // this.blobFile.getInputStream(),
-    // Charset.defaultCharset());
-    // }
-
-    // @PostMapping("/writeBlobFile")
-    // public String writeBlobFile(@RequestBody String data) throws IOException {
-    // try (OutputStream os = ((WritableResource) this.blobFile).getOutputStream())
-    // {
-    // os.write(data.getBytes());
-    // }
-    // return "file was updated";
-    // }
     @Autowired
     private BlobService azureBlobAdapter;
 

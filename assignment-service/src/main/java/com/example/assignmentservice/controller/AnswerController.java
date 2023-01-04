@@ -4,19 +4,16 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.hateoas.EntityModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +22,7 @@ import com.example.assignmentservice.exception.NotFoundException;
 import com.example.assignmentservice.model.Answer;
 import com.example.assignmentservice.model.CourseAnswer;
 import com.example.assignmentservice.model.GradeStatus;
+import com.example.assignmentservice.model.GradeUpdate;
 import com.example.assignmentservice.service.AnswerService;
 
 @RestController
@@ -50,6 +48,11 @@ public class AnswerController {
             return EntityModel.of(answer, linkTo(methodOn(AnswerController.class).one(id)).withSelfRel(),
                     linkTo(methodOn(AssignmentController.class).all()).withRel("assignment"));
         }
+    }
+
+    @GetMapping("/status/{status_number}")
+    public List<Answer> answersByStatus(@PathVariable Integer status_number) {
+        return answer_service.getAnswerByStatus(status_number);
     }
 
     @GetMapping("/student/{student_id}/assignment/{assignment_id}")
@@ -112,6 +115,17 @@ public class AnswerController {
             }
         }
         return allGrade;
+    }
+
+    @PutMapping("/")
+    public ResponseEntity<Answer> updateAnswer(@RequestBody GradeUpdate gradeUpdate) {
+        Answer updateAnswer = answer_service.getAnswer(gradeUpdate.getAnswer_id());
+
+        updateAnswer.setAssignment_score(gradeUpdate.getScore());
+        updateAnswer.setAssignment_status(2);
+        answer_service.saveAnswer(updateAnswer);
+
+        return ResponseEntity.ok(updateAnswer);
     }
 
     @DeleteMapping("/{id}")

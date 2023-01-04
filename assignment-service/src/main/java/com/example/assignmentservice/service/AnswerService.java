@@ -46,6 +46,15 @@ public class AnswerService {
         }
     }
 
+    public List<Answer> getAnswerByStatus(Integer status_number){
+        Optional<List<Answer>> answers = answerrepo.findAnswerByStatus(status_number);
+        if(answers.isPresent()){
+            return answers.get();
+        }else{
+            return null;
+        }
+    }
+
     public List<CourseAnswer> getCourseAnswer(Integer student_id, Integer course_id){
         Optional<List<CourseAnswer>> answer = answerrepo.findCourseAnswer(student_id, course_id);
         
